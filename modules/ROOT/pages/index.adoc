@@ -1,4 +1,4 @@
-= {title}
+== Knative Eventing
 
 .CloudEvents
 ****
