@@ -1,10 +1,11 @@
 [[source-to-sink]]
 == Eventing Source to Sink
 include::_attributes.adoc[]
-
 //Define vars
 :greeter-image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
 :service-file: service.yaml
+
+include::knative-tutorial-eventing:ROOT:partial$eventing-snippets.adoc[tag=eventing-nav-folder]
 
 [#eventing-source]
 == Event Source
@@ -23,20 +24,21 @@ cronjobsources    sources.eventing.knative.dev  true         CronJobSource
 sinkbindings      sources.eventing.knative.dev  true         SinkBinding
 ----
 
-.link:{github-repo}/{eventing-repo}/eventing-hello-sink.yaml[eventing-hello-sink.yaml]
+.link:{github-repo}/{eventing-repo}/eventing-hello-sink.yaml[eventinghello-source.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
-apiVersion: sources.eventing.knative.dev/v1
+apiVersion: sources.eventing.knative.dev/v1alpha1
 kind: CronJobSource #<1>
 metadata:
-  name: event-greeter-cronjob-source
+  name: eventinghello-cronjob-source
 spec: #<2>
   schedule: "*/2 * * * *"
-  data: '{"message": "Thanks for doing Knative Tutorial"}'
-  sink: 
-    apiVersion: serving.knative.dev/v1
-    kind: Service
-    name: eventinghello
+  data: '{"key": "every 2 mins"}'
+  sink:
+    ref:
+      apiVersion: serving.knative.dev/v1alpha1
+      kind: Service
+      name: eventinghello
 ----
 
 <1> The type of event source, the eventing system deploys a bunch of sources out of the box and it also provides way to deploy custom resources
@@ -82,8 +84,8 @@ Run the following commands to create the event source resources:
 === Create Event Source
 
 :doc-sec: event-src-svc
-:url: {github-repo}/{eventing-repo}/eventing-hello-sink.yaml
-:url-alt-text: event-source-svc.yaml
+:url: {github-repo}/{eventing-repo}/eventinghello-source.yaml
+:url-alt-text: eventinghello-source.yaml
 include::ROOT:partial$deploy-knative-resources.adoc[]
 
 [#eventing-verify-event-source]
