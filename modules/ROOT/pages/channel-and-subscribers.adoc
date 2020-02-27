@@ -158,7 +158,7 @@ The event subscription is responsible of connecting the channel(sink) with the s
 .link:{github-repo}/{eventing-repo}/channel-subscriber.yaml[channel-subscriber.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
-apiVersion: serving.knative.dev/v1alpha1
+apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: eventinghelloa
@@ -176,7 +176,7 @@ spec:
 
 [source,yaml]
 ----
-apiVersion: serving.knative.dev/v1alpha1
+apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: eventinghellob
@@ -222,7 +222,7 @@ spec:
     name: eventinghello-ch
   subscriber:
     ref:
-      apiVersion: serving.knative.dev/v1alpha1
+      apiVersion: serving.knative.dev/v1
       kind: Service
       name: eventinghelloa
 ----
@@ -242,7 +242,7 @@ spec:
     name: eventinghello-ch
   subscriber:
     ref:
-      apiVersion: serving.knative.dev/v1alpha1
+      apiVersion: serving.knative.dev/v1
       kind: Service
       name: eventinghellob
 ----

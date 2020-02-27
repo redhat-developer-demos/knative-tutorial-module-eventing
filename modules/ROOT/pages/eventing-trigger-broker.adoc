@@ -163,7 +163,7 @@ spec:
       type: greeting # <1>
   subscriber:
     ref:
-     apiVersion: serving.knative.dev/v1alpha1
+     apiVersion: serving.knative.dev/v1
      kind: Service
      name: eventingaloha
 ----

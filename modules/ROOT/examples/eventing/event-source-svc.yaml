@@ -6,6 +6,6 @@ spec:
   schedule: "* * * * *"
   data: '{"message": "Thanks for doing Knative Tutorial"}'
   sink:
-    apiVersion: serving.knative.dev/v1alpha1
+    apiVersion: serving.knative.dev/v1
     kind: Service
     name: event-greeter
