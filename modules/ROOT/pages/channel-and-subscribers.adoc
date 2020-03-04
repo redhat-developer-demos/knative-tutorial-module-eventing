@@ -294,8 +294,9 @@ Running  the above command should return the following result:
 //TODO - update
 [source,bash,subs="attributes+,+macros"]
 ----
-NAME                       AGE
-event-greeter-subscriber  39s
+NAME                 READY   REASON   AGE
+eventinghelloa-sub   True             81s
+eventinghellob-sub   True             74s
 ----
 
 If you wait approximately 2 minutes for the CronJobSource then you will see both `eventinghelloa` and `eventinghellob` begin to run in the {tutorial-namespace}.
@@ -338,7 +339,8 @@ kubectl -n {tutorial-namespace} delete -f eventing-helloa-sink.yaml
 kubectl -n {tutorial-namespace} delete -f eventing-helloa-sub.yaml
 kubectl -n {tutorial-namespace} delete -f eventing-hellob-sink.yaml
 kubectl -n {tutorial-namespace} delete -f eventing-hellob-sub.yaml
-kubectl -n {tutorial-namespace} delete -f eventinghello-source-ch.yaml
+kubectl -n {tutorial-namespace} delete -f event-source.yaml
+kubectl -n {tutorial-namespace} delete -f channel.yaml
 ----
 copyToClipboard::eventing-run-cleanup2[]
 
@@ -354,7 +356,8 @@ oc -n {tutorial-namespace} delete -f eventing-helloa-sink.yaml
 oc -n {tutorial-namespace} delete -f eventing-helloa-sub.yaml
 oc -n {tutorial-namespace} delete -f eventing-hellob-sink.yaml
 oc -n {tutorial-namespace} delete -f eventing-hellob-sub.yaml
-oc -n {tutorial-namespace} delete -f eventinghello-source-ch.yaml
+oc -n {tutorial-namespace} delete -f event-source.yaml
+oc -n {tutorial-namespace} delete -f channel.yaml
 ----
 copyToClipboard::eventing-run-oc-cleanup2[]
 ifndef::workshop[]
