@@ -360,7 +360,7 @@ kubectl::
 [#knative-triggers]
 [source,bash,subs="+macros,+attributes"]
 ----
-kubectl --namespace {tutorial-namespace}  get triggers.eventing.knative.dev event-greeter-trigger  
+kubectl --namespace {tutorial-namespace}  get triggers.eventing.knative.dev helloaloha hellobonjour
 ----
 copyToClipboard::knative-triggers[]
 --
@@ -371,7 +371,7 @@ endif::[]
 [#oc-knative-triggers]
 [source,bash,subs="+macros,+attributes"]
 ----
-oc --namespace {tutorial-namespace}  get triggers.eventing.knative.dev event-greeter-trigger 
+oc --namespace {tutorial-namespace}  get triggers.eventing.knative.dev helloaloha hellobonjour
 ----
 copyToClipboard::oc-knative-triggers[]
 ifndef::workshop[]
