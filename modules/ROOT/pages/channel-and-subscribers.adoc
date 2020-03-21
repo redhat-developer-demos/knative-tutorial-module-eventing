@@ -71,7 +71,7 @@ Running  the above command should return the following result:
 [source,bash,subs="attributes+,+macros"]
 ----
 NAME             READY URL
-eventinghello-ch True  http://eventinghello-ch-kn-channel.chapter-5.svc.cluster.local
+eventinghello-ch True  http://eventinghello-ch-kn-channel.{tutorial-namespace}.svc.cluster.local
 ----
 
 [#eventing-source]

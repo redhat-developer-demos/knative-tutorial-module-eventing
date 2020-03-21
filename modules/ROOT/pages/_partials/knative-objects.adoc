@@ -10,7 +10,8 @@ kubectl::
 [#knative-services]
 [source,bash,subs="+macros,+attributes"]
 ----
-kubectl --namespace {tutorial-namespace}  get services.serving.knative.dev greeter 
+kubectl --namespace {tutorial-namespace}  get \
+  services.serving.knative.dev {svc-name} 
 ----
 copyToClipboard::knative-services[]
 --
@@ -21,7 +22,8 @@ endif::[]
 [#oc-knative-services]
 [source,bash,subs="+macros,+attributes"]
 ----
-oc --namespace {tutorial-namespace}  get services.serving.knative.dev greeter 
+oc --namespace {tutorial-namespace}  get \
+  services.serving.knative.dev {svc-name} 
 ----
 copyToClipboard::oc-knative-services[]
 ifndef::workshop[]
@@ -326,9 +328,10 @@ kubectl::
 +
 --
 [#knative-services]
-[source,bash,subs="+macros,+attributes"]
+[source,bash,subs="+attributes,+macros"]
 ----
-kubectl --namespace {tutorial-namespace}  get services.serving.knative.dev event-greeter  
+kubectl --namespace {tutorial-namespace}  get \
+  services.serving.knative.dev eventinghello  
 ----
 copyToClipboard::knative-services[]
 --
@@ -339,8 +342,8 @@ endif::[]
 [#oc-knative-services]
 [source,bash,subs="+macros,+attributes"]
 ----
-# get a Knative Service (short name ksvc) called greeter
-oc --namespace {tutorial-namespace}  get services.serving.knative.dev event-greeter 
+oc --namespace {tutorial-namespace}  get \
+  services.serving.knative.dev eventinghello
 ----
 copyToClipboard::oc-knative-services[]
 ifndef::workshop[]

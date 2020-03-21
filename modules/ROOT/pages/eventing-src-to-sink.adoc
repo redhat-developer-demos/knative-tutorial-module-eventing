@@ -99,7 +99,9 @@ kubectl::
 [#eventing-run-verify-event-source]
 [source,bash,subs="attributes+,+macros"]
 ----
-kubectl -n {tutorial-namespace} get cronjobsources.sources.eventing.knative.dev 
+kubectl -n {tutorial-namespace} get \
+  cronjobsources.sources.eventing.knative.dev \
+  event-greeter-cronjob-source
 ----
 copyToClipboard::eventing-run-verify-event-source[]
 --
@@ -110,7 +112,9 @@ endif::[]
 [#eventing-run-oc-verify-event-source]
 [source,bash,subs="attributes+,+macros"]
 ----
-oc -n {tutorial-namespace} get cronjobsources.sources.eventing.knative.dev 
+oc -n {tutorial-namespace} get \
+  cronjobsources.sources.eventing.knative.dev \
+  event-greeter-cronjob-source
 ----
 copyToClipboard::eventing-run-oc-verify-event-source[]
 ifndef::workshop[]
@@ -133,10 +137,10 @@ include::partial$eventing-snippets.adoc[tag=cronjob-source]
 
 Run the following command to create the Knative service that will be used as the subscriber for the cron events:
 
-.link:{github-repo}/{eventing-repo}/eventinghello-source.yaml[eventinghello-source.yaml]
+.link:{github-repo}/{eventing-repo}/eventing-hello-sink.yaml[eventing-hello-sink.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
-include::ROOT:example$eventing/eventinghello-source.yaml[]
+include::ROOT:example$eventing/eventing-hello-sink.yaml[]
 ----
 
 [#eventing-deploy-sink-service]
@@ -145,8 +149,8 @@ include::ROOT:example$eventing/eventinghello-source.yaml[]
 Run the following commands to create the service:
 
 :doc-sec: deploy-sink-service
-:url: {github-repo}/{eventing-repo}/eventing/eventinghello-source.yaml
-:url-alt-text: eventinghello-source.yaml
+:url: {github-repo}/{eventing-repo}/eventing/eventing-hello-sink.yaml
+:url-alt-text: eventing-hello-sink.yaml
 include::ROOT:partial$deploy-knative-resources.adoc[]
 
 You can xref:{eventing-repo}/eventing.adoc#eventing-watch-logs[watch logs] to see the cron job source sending an event every 1 minute.
@@ -158,6 +162,7 @@ You can xref:{eventing-repo}/eventing.adoc#eventing-watch-logs[watch logs] to se
 include::partial$knative-objects.adoc[tag=knative-event-cronjob-sources]
 
 ==== services
+:svc-name: eventinghello
 include::partial$knative-objects.adoc[tag=knative-event-services]
 
 [#eventing-cleanup]
