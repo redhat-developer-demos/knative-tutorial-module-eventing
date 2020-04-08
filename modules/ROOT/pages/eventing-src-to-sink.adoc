@@ -14,9 +14,15 @@ include::knative-tutorial-eventing:ROOT:partial$eventing-snippets.adoc[tag=event
 
 Knative Eventing Sources installs the following four sources out-of-the-box:
 
+[#eventing-get-api-resources]
 [source,bash,subs="+quotes,attributes+,+macros"]
 ----
-$ *kubectl api-resources --api-group='sources.eventing.knative.dev'*
+kubectl api-resources --api-group='sources.eventing.knative.dev'
+----
+copyToClipboard::eventing-get-api-resources[]
+
+[source,bash,subs="+quotes,attributes+,+macros"]
+----
 NAME              APIGROUP                      NAMESPACED   KIND
 apiserversources  sources.eventing.knative.dev  true         ApiServerSource
 containersources  sources.eventing.knative.dev  true         ContainerSource
@@ -24,7 +30,7 @@ cronjobsources    sources.eventing.knative.dev  true         CronJobSource
 sinkbindings      sources.eventing.knative.dev  true         SinkBinding
 ----
 
-.link:{github-repo}/{eventing-repo}/eventing-hello-sink.yaml[eventinghello-source.yaml]
+.link:{github-repo}/{eventing-repo}/eventinghello-source.yaml[eventinghello-source.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
 apiVersion: sources.eventing.knative.dev/v1alpha1
@@ -46,11 +52,11 @@ spec: #<2>
 
 
 [#eventing-sink]
-== Event Sink
+== Referencing the Event Sink
 
 *Knative Eventing Sink* is how you specify the event receiver -- that is the consumer of the event--. Sinks can be invoked directly in a point-to-point fashion by referencing them via the Event Source's `sink` as shown below:
 
-.link:{github-repo}/{eventing-repo}/eventing-hello-sink.yaml[eventing-hello-sink.yaml]
+.link:{github-repo}/{eventing-repo}/eventinghello-source.yaml[eventinghello-source.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
 apiVersion: sources.eventing.knative.dev/v1
