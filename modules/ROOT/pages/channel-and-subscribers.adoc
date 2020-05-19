@@ -18,7 +18,7 @@ The https://en.wikipedia.org/wiki/Event-driven_architecture#Event_channel[channe
 [#eventing-create-event-channel]
 === Create Event Channel
 .link:{github-repo}/{eventing-repo}/channel.yaml[channel.yaml]
-[source,yaml,linenums]
+[source,yaml,subs="attributes+,+macros"]
 ----
 apiVersion: messaging.knative.dev/v1alpha1
 kind: Channel
@@ -37,41 +37,21 @@ include::ROOT:partial$deploy-knative-resources.adoc[]
 
 [#eventing-verify-event-channel]
 ==== Verification
-ifndef::workshop[]
-[tabs]
-====
-kubectl::
-+
---
-[#eventing-run-verify-event-channel]
-[source,bash,subs="attributes+,+macros"]
-----
-kubectl -n {tutorial-namespace} get channels.eventing.knative.dev 
-----
-copyToClipboard::eventing-run-verify-event-channel[]
---
-oc::
-+
---
-endif::[]
 
-[#eventing-run-oc-verify-event-channel]
-[source,bash,subs="attributes+,+macros"]
+[#eventing-run-verify-event-channel]
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
 ----
-oc -n {tutorial-namespace} get channels.eventing.knative.dev 
+kubectl -n {tutorial-namespace} get channels.messaging.knative.dev 
 ----
-copyToClipboard::eventing-run-oc-verify-event-channel[]
-ifndef::workshop[]
---
-====
-endif::[]
 
 Running  the above command should return the following result:
 
-[source,bash,subs="attributes+,+macros"]
+[.console-output]
+[source,bash]
 ----
 NAME             READY URL
-eventinghello-ch True  http://eventinghello-ch-kn-channel.{tutorial-namespace}.svc.cluster.local
+eventinghello-ch True  http://eventinghello-ch-kn-channel.knativetutorial.svc.cluster.local
 ----
 
 [#eventing-source]
@@ -84,13 +64,13 @@ The event source listens to external events e.g. a kafka topic or for a file on 
 .link:{github-repo}/{eventing-repo}/event-source.yaml[event-source.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
-apiVersion: sources.eventing.knative.dev/v1alpha1
-kind: CronJobSource
+apiVersion: sources.knative.dev/v1alpha2
+kind: PingSource
 metadata:
-  name: my-cjs
+  name: event-greeter-ping-source
 spec:
   schedule: "*/2 * * * *"
-  data: '{"message": "From CronJob Source"}'
+  jsonData: '{"message": "Thanks for doing Knative Tutorial"}'
   sink:
    ref:
     apiVersion: messaging.knative.dev/v1alpha1 # <1>
@@ -110,43 +90,22 @@ include::ROOT:partial$deploy-knative-resources.adoc[]
 
 [#eventing-verify-event-source]
 ==== Verification
-ifndef::workshop[]
-[tabs]
-====
-kubectl::
-+
---
+
 [#eventing-run-verify-event-src]
-[source,bash,subs="attributes+,+macros"]
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
 ----
-kubectl -n {tutorial-namespace} get cronjobsources.sources.eventing.knative.dev 
+kubectl -n {tutorial-namespace} get pingsource.sources.knative.dev 
 ----
-copyToClipboard::eventing-run-verify-event-src[]
---
-oc::
-+
---
-endif::[]
-[#eventing-run-oc-verify-event-src]
-[source,bash,subs="attributes+,+macros"]
-----
-oc -n {tutorial-namespace} get cronjobsources.sources.eventing.knative.dev 
-----
-copyToClipboard::eventing-run-oc-verify-event-src[]
-ifndef::workshop[]
---
-====
-endif::[]
 
 Running  the above command should return the following result:
 
-[source,bash,subs="attributes+,+macros"]
+[.console-output]
+[source,bash]
 ----
-NAME     READY   AGE
-my-cjs   True    8s
+NAME                        READY   AGE
+event-greeter-ping-source   True    8s
 ----
-
-include::partial$eventing-snippets.adoc[tag=cronjob-source]
 
 [#eventing-subscriber]
 == Event Subscriber
@@ -155,7 +114,7 @@ The event subscription is responsible of connecting the channel(sink) with the s
 
 [#eventing-create-subscribers-services]
 === Create Subscriber Services
-.link:{github-repo}/{eventing-repo}/channel-subscriber.yaml[channel-subscriber.yaml]
+.link:{github-repo}/{eventing-repo}/eventing-helloa-sink.yaml[eventing-helloa-sink.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
 apiVersion: serving.knative.dev/v1
@@ -170,11 +129,12 @@ spec:
         autoscaling.knative.dev/target: "1"
     spec:
       containers:
-      - image: quay.io/rhdevelopers/eventinghello:0.0.1
+      - image: quay.io/rhdevelopers/eventinghello:0.0.2
 ----
 <1> The string of `eventinghelloa` will help you identify this particular service.
 
-[source,yaml]
+.link:{github-repo}/{eventing-repo}/eventing-hellob-sink.yaml[eventing-hellob-sink.yaml]
+[source,yaml,subs="attributes+,+macros"]
 ----
 apiVersion: serving.knative.dev/v1
 kind: Service
@@ -188,7 +148,7 @@ spec:
         autoscaling.knative.dev/target: "1"
     spec:
       containers:
-      - image: quay.io/rhdevelopers/eventinghello:0.0.1
+      - image: quay.io/rhdevelopers/eventinghello:0.0.2
 ----
 
 <1> The string of `eventinghellob` will help you identify this particular service.
@@ -211,13 +171,13 @@ Now create the appropriate `Subscription` for `eventinghelloa` to the Channel `e
 
 [source,yaml]
 ----
-apiVersion: messaging.knative.dev/v1alpha1
+apiVersion: messaging.knative.dev/v1beta1
 kind: Subscription
 metadata:
   name: eventinghelloa-sub
 spec:
   channel:
-    apiVersion: messaging.knative.dev/v1alpha1
+    apiVersion: messaging.knative.dev/v1beta1
     kind: Channel
     name: eventinghello-ch
   subscriber:
@@ -231,13 +191,13 @@ And create the appropriate `Subscription` for `eventinghellob` to the Channel `e
 
 [source,yaml]
 ----
-apiVersion: messaging.knative.dev/v1alpha1
+apiVersion: messaging.knative.dev/v1beta1
 kind: Subscription
 metadata:
   name: eventinghellob-sub
 spec:
   channel:
-    apiVersion: messaging.knative.dev/v1alpha1
+    apiVersion: messaging.knative.dev/v1beta1
     kind: Channel
     name: eventinghello-ch
   subscriber:
@@ -261,52 +221,32 @@ include::ROOT:partial$deploy-knative-resources.adoc[]
 [#eventing-verify-subscriber]
 ==== Verification
 
-ifndef::workshop[]
-[tabs]
-====
-kubectl::
-+
---
 [#eventing-run-verify-subscriber]
-[source,bash,subs="attributes+,+macros"]
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
 ----
-kubectl -n {tutorial-namespace} get subscriptions.eventing.knative.dev 
+kubectl -n {tutorial-namespace} get subscription.messaging.knative.dev 
 ----
-copyToClipboard::eventing-run-verify-subscriber[]
---
-oc::
-+
---
-endif::[]
-[#eventing-run-oc-verify-subscriber]
-[source,bash,subs="attributes+,+macros"]
-----
-oc -n {tutorial-namespace} get subscriptions.eventing.knative.dev 
-----
-copyToClipboard::eventing-run-oc-verify-subscriber[]
-ifndef::workshop[]
---
-====
-endif::[]
 
 Running  the above command should return the following result:
 
-//TODO - update
-[source,bash,subs="attributes+,+macros"]
+[.console-output]
+[source,bash]
 ----
 NAME                       AGE
-event-greeter-subscriber  39s
+eventinghelloa-sub         39s
+eventinghellob-sub         39s
 ----
 
-If you wait approximately 2 minutes for the CronJobSource then you will see both `eventinghelloa` and `eventinghellob` begin to run in the {tutorial-namespace}.
+If you wait approximately 2 minutes for the PingSource then you will see both `eventinghelloa` and `eventinghellob` begin to run in the {tutorial-namespace}.
 
 .Watch pods in the {tutorial-namespace}
-[source,bash,subs="+quotes,attributes+,+macros"]
+[.console-output]
+[source,bash]
 ----
 NAME                                                      READY STATUS  AGE
-cronjobsource-my-cjs-93544f14-2bf9-11ea-83c7-08002737670c 1/1   Running 2m15s
-eventinghelloa-1-deployment-d86bf4847-hvbk6               2/2   Running 5s
-eventinghellob-1-deployment-5c986c7586-4clpb              2/2   Running 5s
+eventinghelloa-v1-deployment-d86bf4847-hvbk6               2/2   Running 5s
+eventinghellob-v1-deployment-5c986c7586-4clpb              2/2   Running 5s
 ----
 
 [#eventing-see-what-you-have-deployed]
@@ -315,50 +255,24 @@ eventinghellob-1-deployment-5c986c7586-4clpb              2/2   Running 5s
 ==== channel
 include::partial$knative-objects.adoc[tag=knative-event-channel]
 
-==== sources
-include::partial$knative-objects.adoc[tag=knative-event-cronjob-sources]
+==== source
+include::partial$knative-objects.adoc[tag=knative-event-ping-sources]
 
-==== subscription
+==== subscriptions
 include::partial$knative-objects.adoc[tag=knative-event-subscribers]
 
 TIP: Add `-oyaml` to the above commands to get more details about each object that were queried for. 
 
 [#eventing-cleanup]
 == Cleanup
-ifndef::workshop[]
-[tabs]
-====
-kubectl::
-+
---
+
 [#eventing-run-cleanup2]
-[source,bash,subs="attributes+,+macros",linenums]
+[.console-input]
+[source,bash,subs="+macros,+attributes"]
 ----
 kubectl -n {tutorial-namespace} delete -f eventing-helloa-sink.yaml
 kubectl -n {tutorial-namespace} delete -f eventing-helloa-sub.yaml
 kubectl -n {tutorial-namespace} delete -f eventing-hellob-sink.yaml
 kubectl -n {tutorial-namespace} delete -f eventing-hellob-sub.yaml
-kubectl -n {tutorial-namespace} delete -f eventinghello-source-ch.yaml
+kubectl -n {tutorial-namespace} delete -f event-source.yaml
 ----
-copyToClipboard::eventing-run-cleanup2[]
-
---
-oc::
-+
---
-endif::[]
-[#eventing-run-oc-cleanup2]
-[source,bash,subs="attributes+,+macros",linenums]
-----
-oc -n {tutorial-namespace} delete -f eventing-helloa-sink.yaml
-oc -n {tutorial-namespace} delete -f eventing-helloa-sub.yaml
-oc -n {tutorial-namespace} delete -f eventing-hellob-sink.yaml
-oc -n {tutorial-namespace} delete -f eventing-hellob-sub.yaml
-oc -n {tutorial-namespace} delete -f eventinghello-source-ch.yaml
-----
-copyToClipboard::eventing-run-oc-cleanup2[]
-ifndef::workshop[]
---
-====
-
-endif::[]
