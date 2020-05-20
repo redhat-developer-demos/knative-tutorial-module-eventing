@@ -110,7 +110,7 @@ event-greeter-ping-source   True    8s
 [#eventing-subscriber]
 == Event Subscriber
 
-The event subscription is responsible of connecting the channel(sink) with the service. Once a service connected to a channel it starts receiving the events (cloud events).
+The event subscription is responsible of connecting the channel(sink) with the service. Once a service is connected to a channel it starts receiving the events (cloud events).
 
 [#eventing-create-subscribers-services]
 === Create Subscriber Services

@@ -119,7 +119,7 @@ Run the following commands to create the event source resources:
 include::ROOT:partial$deploy-knative-resources.adoc[]
 
 [#eventing-verify-event-source]
-==== Verification
+=== Verification
 
 [#eventing-run-verify-event-source]
 [.console-input]

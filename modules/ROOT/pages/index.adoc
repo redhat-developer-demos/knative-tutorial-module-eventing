@@ -19,7 +19,7 @@ Source to Sink::
 image::source-sink.png[Source to Sink,align="center"]
 
 Channel and Subscription::
-  With the _Channel_ and _Subscription_, the Knative Eventing system defines a _Channel_, which can connect to various backends such as In-Memory, Kafka and GCP PubSub for sourcing the events. Each Channel can have one more subscribers in the form of _Sink_ services as shown in Figure 4-2, which can receive the event messages and process them as needed. Each message from the Channel is formatted as _CloudEvent_ and sent further up in the chain to other Subscribers for further processing. The Channels and Subscription usage pattern does not have the ability to filter messages.
+  With the _Channel_ and _Subscription_, the Knative Eventing system defines a _Channel_, which can connect to various backends such as In-Memory, Kafka and GCP PubSub for sourcing the events. Each Channel can have one or more subscribers in the form of _Sink_ services as shown in Figure 4-2, which can receive the event messages and process them as needed. Each message from the Channel is formatted as _CloudEvent_ and sent further up in the chain to other Subscribers for further processing. The Channels and Subscription usage pattern does not have the ability to filter messages.
 
 .Channels and Subscriptions
 image::channels-subs.png[Channels and Subscriptions,align="center"]

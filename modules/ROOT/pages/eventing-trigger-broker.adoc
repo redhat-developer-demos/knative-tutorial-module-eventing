@@ -1,5 +1,5 @@
 [[brokers-and-triggers]]
-== Triggers and Brokers
+== Brokers and Triggers 
 include::_attributes.adoc[]
 
 :greeter-image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
