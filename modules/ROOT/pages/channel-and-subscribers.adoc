@@ -1,5 +1,5 @@
 [[channels-and-subs]]
-== Channel and Subscribers
+= Channel and Subscribers
 include::_attributes.adoc[]
 //Define vars
 :greeter-image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
