@@ -70,9 +70,10 @@ spec:
   schedule: "*/2 * * * *"
   jsonData: '{"message": "Thanks for doing Knative Tutorial"}'
   sink:  #<1>
-    apiVersion: serving.knative.dev/v1 #<2>
-    kind: Service
-    name: eventinghello #<3>
+    ref:
+      apiVersion: serving.knative.dev/v1 #<2>
+      kind: Service
+      name: eventinghello #<3>
 ----
 
 <1> sink can target any Kubernetes Service or 
@@ -119,7 +120,7 @@ Run the following commands to create the event source resources:
 include::ROOT:partial$deploy-knative-resources.adoc[]
 
 [#eventing-verify-event-source]
-=== Verification
+== Verification
 
 [#eventing-run-verify-event-source]
 [.console-input]
@@ -127,7 +128,7 @@ include::ROOT:partial$deploy-knative-resources.adoc[]
 ----
 kubectl -n {tutorial-namespace} get \
   pingsources.sources.knative.dev \
-  eventinghello-pings-source
+  eventinghello-ping-source
 ----
 
 Running  the above command should return the following result:
@@ -142,12 +143,12 @@ eventinghello-ping-source  39s
 You can xref:{eventing-repo}/eventing.adoc#eventing-watch-logs[watch logs] to see the ping job source sending an event every 1 minute.
 
 [#eventing-see-what-you-have-deployed]
-=== See what you have deployed
+== See what you have deployed
 
-==== sources
+=== sources
 include::partial$knative-objects.adoc[tag=knative-event-ping-sources]
 
-==== services
+=== services
 :svc-name: eventinghello
 include::partial$knative-objects.adoc[tag=knative-event-services]
 

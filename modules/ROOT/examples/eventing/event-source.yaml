@@ -6,7 +6,7 @@ spec:
   schedule: "*/2 * * * *"
   jsonData: '{"message": "Thanks for doing Knative Tutorial"}'
   sink:
-   ref:
-    apiVersion: messaging.knative.dev/v1beta1
-    kind: Channel
-    name: eventinghello-ch
+    ref:
+      apiVersion: messaging.knative.dev/v1beta1
+      kind: Channel
+      name: eventinghello-ch

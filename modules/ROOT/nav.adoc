@@ -18,7 +18,7 @@
 *** xref:channel-and-subscribers.adoc#eventing-create-subscriber[Create Event Subscriber]
 *** xref:channel-and-subscribers.adoc#eventing-verify-subscriber[Verify]
 ** xref:channel-and-subscribers.adoc#eventing-see-what-you-have-deployed[See What You Have Deployed]
-*** xref:channel-and-subscribers.adoc#eventing-cleanup[Cleanup]
+** xref:channel-and-subscribers.adoc#eventing-cleanup[Cleanup]
 
 * xref:eventing-trigger-broker.adoc[Brokers and Triggers]
 ** xref:eventing-trigger-broker.adoc#events-triggers-brokers[Events, Triggers and Brokers]

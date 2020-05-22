@@ -4,7 +4,7 @@ include::_attributes.adoc[]
 
 :greeter-image: quay.io/rhdevelopers/knative-tutorial-greeter:quarkus
 
-Use the Knative Eventing `Broker` and `Trigger` Custom Resources to allow for CloudEvent attribute filtering.
+Use the Knative Eventing `Broker` and `Trigger` Custom Resources to allow for link:https://cloudevents.io/[CloudEvent] attribute filtering.
 
 [#broker]
 == Broker
@@ -118,7 +118,7 @@ spec:
      name: eventingaloha
 ----
 
-<1> The `type` is the CloudEvent type that is mapped to the `ce-type` HTTP header.  A Trigger can filter by CloudEvent attributes such as type, source or extension.
+<1> The `type` is the CloudEvent type that is mapped to the `ce-type` HTTP header.  A Trigger can filter by link:https://cloudevents.io/[CloudEvent] attributes such as type, source or extension.
 
 Run the following commands to create the trigger:
 
@@ -204,7 +204,7 @@ The command should show the output as:
 [.console-output]
 [source,bash]
 ----
-http://default-broker.knativetutorial}.svc.cluster.local
+http://default-broker.knativetutorial.svc.cluster.local
 ----
 
 You should notice that the subscriberURIs are Kubernetes services with the suffix of `{tutorial-namespace}.svc.cluster.local`.  This means they can be interacted with from another pod within the Kubernetes cluster.
@@ -263,14 +263,14 @@ Using the `curler` pod's shell, curl the subcriberURI for eventingaloha:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-$ *curl -v "http://eventingaloha.{tutorial-namespace}.svc.cluster.local" \
+curl -v "http://eventingaloha.{tutorial-namespace}.svc.cluster.local" \
 -X POST \
 -H "Ce-Id: say-hello" \
 -H "Ce-Specversion: 1.0" \
 -H "Ce-Type: aloha" \
 -H "Ce-Source: mycurl" \
 -H "Content-Type: application/json" \
--d '{"key":"from a curl"}'*
+-d '{"key":"from a curl"}'
 ----
 
 You will then see `eventingaloha` will scale-up to respond to that event:
@@ -299,14 +299,14 @@ Next, curl the subcriberURI for `eventingbonjour`:
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-$ *curl -v "http://eventingbonjour.{tutorial-namespace}.svc.cluster.local" \
+curl -v "http://eventingbonjour.{tutorial-namespace}.svc.cluster.local" \
 -X POST \
 -H "Ce-Id: say-hello" \
 -H "Ce-Specversion: 1.0" \
 -H "Ce-Type: bonjour" \
 -H "Ce-Source: mycurl" \
 -H "Content-Type: application/json" \
--d '{"key":"from a curl"}'*
+-d '{"key":"from a curl"}'
 ----
 
 And you will see the `eventingbonjour` pod scale up:
@@ -374,7 +374,7 @@ eventingaloha-1-deployment-6cdc888d9d-nlpm8  2/2   Running 6s
 eventingbonjour-1-deployment-fc7858b5b-btdcr 2/2   Running 6s
 -----
 
-You can experiment by using different type filters in the Subscription to see how the different subscribed services respond. `Filters` may use an CloudEvent attribute for its criteria.
+You can experiment by using different type filters in the Subscription to see how the different subscribed services respond. `Filters` may use an link:https://cloudevents.io/[CloudEvent] attribute for its criteria.
 
 [#eventing-cleanup]
 == Cleanup

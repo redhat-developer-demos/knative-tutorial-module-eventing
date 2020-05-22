@@ -20,7 +20,7 @@ The https://en.wikipedia.org/wiki/Event-driven_architecture#Event_channel[channe
 .link:{github-repo}/{eventing-repo}/channel.yaml[channel.yaml]
 [source,yaml,subs="attributes+,+macros"]
 ----
-apiVersion: messaging.knative.dev/v1alpha1
+apiVersion: messaging.knative.dev/v1beta1
 kind: Channel
 metadata:
   name: eventinghello-ch #<1> 
@@ -48,10 +48,10 @@ kubectl -n {tutorial-namespace} get channels.messaging.knative.dev
 Running  the above command should return the following result:
 
 [.console-output]
-[source,bash]
+[source,bash,subs="+macros,+attributes"]
 ----
 NAME             READY URL
-eventinghello-ch True  http://eventinghello-ch-kn-channel.knativetutorial.svc.cluster.local
+eventinghello-ch True  http://eventinghello-ch-kn-channel.{tutorial-namespace}.svc.cluster.local
 ----
 
 [#eventing-source]
@@ -103,8 +103,9 @@ Running  the above command should return the following result:
 [.console-output]
 [source,bash]
 ----
-NAME                        READY   AGE
-event-greeter-ping-source   True    8s
+NAME                        READY   REASON   SINK                                                                 AGE
+event-greeter-ping-source   True             http://eventinghello-ch-kn-channel.kn-cheatsheet.svc.cluster.local   5s
+
 ----
 
 [#eventing-subscriber]
@@ -250,15 +251,15 @@ eventinghellob-v1-deployment-5c986c7586-4clpb              2/2   Running 5s
 ----
 
 [#eventing-see-what-you-have-deployed]
-=== See what you have deployed
+== See what you have deployed
 
-==== channel
+=== channel
 include::partial$knative-objects.adoc[tag=knative-event-channel]
 
-==== source
+=== source
 include::partial$knative-objects.adoc[tag=knative-event-ping-sources]
 
-==== subscriptions
+=== subscriptions
 include::partial$knative-objects.adoc[tag=knative-event-subscribers]
 
 TIP: Add `-oyaml` to the above commands to get more details about each object that were queried for. 
