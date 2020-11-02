@@ -15,7 +15,7 @@ By labeling `{tutorial-namespace}` namespace with `knative-eventing-injection=en
 [.console-input]
 [source,bash,subs="+macros,+attributes"]
 ----
-kubectl label namespace {tutorial-namespace} knative-eventing-injection=enabled
+kubectl label namespace {tutorial-namespace} eventing.knative.dev/injection=enabled
 ----
 
 
